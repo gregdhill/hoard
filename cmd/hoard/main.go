@@ -38,7 +38,7 @@ func main() {
 		"config file. If omitted default config is used.")
 
 	environmentOpt := hoardApp.BoolOpt("e env", false,
-		fmt.Sprintf("Parse the contents of the enironment variable %s as a complete JSON config",
+		fmt.Sprintf("Parse the contents of the environment variable %s as a complete JSON config",
 			source.DefaultJSONConfigEnvironmentVariable))
 
 	// This string spec is parsed by mow.cli and has actual semantic significance

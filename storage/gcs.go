@@ -42,7 +42,7 @@ func NewGCSStore(gcsBucket, gcsPrefix string, addressEncoding AddressEncoding,
 	if err != nil {
 		return nil, err
 	}
-	gcpSession, err := gcsblob.OpenBucket(ctx, gcsBucket, gcsClient)
+	gcpSession, err := gcsblob.OpenBucket(ctx, gcsBucket, gcsClient, &gcsblob.Options{})
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (gcss *gcsStore) Put(address, data []byte) ([]byte, error) {
 }
 
 func (gcss *gcsStore) Get(address []byte) ([]byte, error) {
-	reader, err := gcss.gcpGCS.NewReader(gcss.back, gcss.gcsPrefix+"/"+gcss.encode(address))
+	reader, err := gcss.gcpGCS.NewReader(gcss.back, gcss.gcsPrefix+"/"+gcss.encode(address), &blob.ReaderOptions{})
 	if err != nil {
 		return address, err
 	}
@@ -103,7 +103,7 @@ func (gcss *gcsStore) Get(address []byte) ([]byte, error) {
 }
 
 func (gcss *gcsStore) Stat(address []byte) (*StatInfo, error) {
-	reader, err := gcss.gcpGCS.NewReader(gcss.back, gcss.gcsPrefix+"/"+gcss.encode(address))
+	reader, err := gcss.gcpGCS.NewReader(gcss.back, gcss.gcsPrefix+"/"+gcss.encode(address), &blob.ReaderOptions{})
 	if err != nil {
 		return &StatInfo{
 			Exists: false,
